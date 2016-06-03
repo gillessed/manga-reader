@@ -1,0 +1,42 @@
+apply plugin: 'idea'
+apply plugin: 'maven'
+apply plugin: 'application'
+
+mainClassName = 'com.gillessed.daedalus.MangaReaderServerMain'
+
+run {
+  args 'server', 'daedalus.yaml'
+}
+
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+sourceSets {
+  main {
+    java {
+      srcDir 'daedalus-rest/src/main'
+    }
+    resources {
+      srcDir 'daedalus-rest/src/resources'
+    }
+  }
+}
+
+idea {
+  project {
+    jdkName = '1.8'
+    languageLevel = '1.8'
+  }
+}
+
+allprojects {
+  version = '0.1.0'
+  repositories {
+    mavenCentral()
+  }
+}
+
+dependencies {
+  compile group: 'io.dropwizard', name: 'dropwizard-core', version: "${dropwizardVersion}"
+}

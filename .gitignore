@@ -1,0 +1,9 @@
+out/**
+manga-reader-web/node_modules/**
+manga-reader-web/semantic/**
+
+*.iml
+*.ipr
+*.iws
+*.class
+*.log

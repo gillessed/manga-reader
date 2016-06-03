@@ -1,0 +1,9 @@
+server:
+  applicationConnectors:
+  - type: http
+    port: 9010
+  adminConnectors:
+  - type: http
+    port: 9011
+
+catalogue: manga-reader-catalogue.json

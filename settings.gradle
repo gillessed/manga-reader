@@ -1,0 +1,2 @@
+include 'manga-reader-rest'
+include 'manga-reader-web'

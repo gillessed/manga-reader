@@ -2,6 +2,8 @@ out/**
 manga-reader-web/node_modules/**
 manga-reader-web/semantic/**
 
+manga-reader-catalogue.json
+
 *.iml
 *.ipr
 *.iws

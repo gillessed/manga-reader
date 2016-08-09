@@ -34,7 +34,7 @@ public class AuthService {
 
     private String generateToken(User user) {
         String newToken = UUID.randomUUID().toString() + UUID.randomUUID().toString();
-        newToken = newToken.replace('-','\0');
+        newToken = newToken.replace("-", "");
         tokens.put(newToken, user);
         return newToken;
     }

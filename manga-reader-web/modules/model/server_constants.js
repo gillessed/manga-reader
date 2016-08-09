@@ -17,8 +17,9 @@ class ServerConstants {
         this.languages = languagesJson
         this.doneLoading()
       },
-      () => {
+      (error) => {
         console.log('Error retrieving server constants.')
+        console.log(error)
       }
     )
   }

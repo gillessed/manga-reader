@@ -24,13 +24,13 @@ export default class AddManga extends React.Component {
     let author = {}
     serverConstants.languages.forEach((language) => {
       author[language] = this.refs['input_' + language].value
+      if(!author[language]) {
+        author[language] = 'BLANK'
+      }
     })
     catalogueController.createAuthor(
       author,
       (json) => {
-        serverConstants.languages.forEach((language) => {
-          author[language] = this.refs['input_' + language].value = 0
-        })
         this.setState({
           creating: false
         })

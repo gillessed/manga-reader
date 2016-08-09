@@ -6,6 +6,10 @@ export default class AddManga extends React.Component {
     super()
   }
 
+  componentDidMount() {
+    $(this.refs.authorDropdown).dropdown()
+  }
+
   render() {
     return (
       <div className='ui segment'>
@@ -17,7 +21,21 @@ export default class AddManga extends React.Component {
           </div>
           <div className='field'>
             <label>Author</label>
-            <input type='text' placeholder='Author'></input>
+            <div className='fields'>
+              <div className='fifteen wide field'>
+                <div ref='authorDropdown' className='ui search selection dropdown'>
+                  <input type='hidden'></input>
+                  <i className = 'dropdown icon'></i>
+                  <div className='default text'>Author</div>
+                  <div className='menu'>
+                    <div className='item'>Gobou</div>
+                  </div>
+                </div>
+              </div>
+              <div className='one wide field'>
+                <button className='ui icon button' style={{width: '100%'}}><i className='add icon'></i></button>
+              </div>
+            </div>
           </div>
         </div>
       </div>

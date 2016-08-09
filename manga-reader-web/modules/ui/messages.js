@@ -1,6 +1,14 @@
+import events from './events'
+
 class Messages {
   constructor() {
     this.list = []
+    events.listen('screen', this.onScreenChanged)
+  }
+
+  onScreenChanged() {
+    this.list.clear()
+      this.contentScreen.forceUpdate()
   }
 
   newMessage(message, level) {
@@ -17,7 +25,7 @@ class Messages {
 
   deleteMessage(message) {
     let index = this.list.indexOf(message)
-    //TODO: delete item
+    this.list.splice(index, 1)
   }
 
   errorMessage(message) {

@@ -88,6 +88,7 @@ export default class Content extends React.Component {
   deleteMessage(message) {
     return () => {
       messages.deleteMessage(message)
+      this.forceUpdate()
     }
   }
 

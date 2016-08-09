@@ -1,8 +1,12 @@
 class Events {
   register(name, value) {
-    this[name] = {
-      value: value,
-      listeners: []
+    if(this[name]) {
+      this[name].value = value
+    } else {
+      this[name] = {
+        value: value,
+        listeners: []
+      }
     }
   }
 
@@ -18,6 +22,12 @@ class Events {
   }
 
   listen(name, listener) {
+    if(!this[name]) {
+      this[name] = {
+        value: null,
+        listeners: []
+      }
+    }
     this[name].listeners.push(listener)
   }
 }

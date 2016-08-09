@@ -1,11 +1,14 @@
 package com.gillessed.daedalus.rest.resources;
 
 import com.gillessed.daedalus.rest.api.Id;
+import com.gillessed.daedalus.rest.api.request.CreateAuthorRequest;
 import com.gillessed.daedalus.rest.api.request.CreateTagRequest;
+import com.gillessed.daedalus.rest.api.request.EditAuthorRequest;
 import com.gillessed.daedalus.rest.api.request.EditTagRequest;
 import com.gillessed.daedalus.rest.api.request.FilterRequest;
 import com.gillessed.daedalus.rest.exception.AuthException;
 import com.gillessed.daedalus.rest.exception.ValidationException;
+import com.gillessed.daedalus.rest.model.Author;
 import com.gillessed.daedalus.rest.model.Languages;
 import com.gillessed.daedalus.rest.model.Tag;
 import com.gillessed.daedalus.rest.services.AuthService;
@@ -133,6 +136,62 @@ public class CatalogueResource {
             return Response.status(Response.Status.UNAUTHORIZED).entity(e.getMessage()).build();
         }
         return Response.ok(catalogueService.getAuthors(filter.getSubstring())).build();
+    }
+
+    @POST
+    @Path("/add/author")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response addAuthor(@HeaderParam("X-Auth-Token") String authToken, CreateAuthorRequest request) {
+        try {
+            authService.verifyToken(authToken);
+        } catch(AuthException e) {
+            return Response.status(Response.Status.UNAUTHORIZED).entity(e.getMessage()).build();
+        }
+        Author author = new Author(UUID.randomUUID().toString(), request.getLanguageMap());
+        try {
+            validationService.verifyAuthor(author);
+        } catch(ValidationException e) {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
+        }
+        catalogueService.addAuthor(author);
+        return Response.ok(new Id(author.getId())).build();
+    }
+
+    @POST
+    @Path("/edit/author")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response editAuthor(@HeaderParam("X-Auth-Token") String authToken, EditAuthorRequest request) {
+        try {
+            authService.verifyToken(authToken);
+        } catch(AuthException e) {
+            return Response.status(Response.Status.UNAUTHORIZED).entity(e.getMessage()).build();
+        }
+        try {
+            validationService.verifyEditAuthor(request);
+        } catch(ValidationException e) {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
+        }
+        catalogueService.editAuthor(request.getAuthorId(), request.getLanguage(), request.getValue());
+        return Response.ok(new ArrayList<>()).build();
+    }
+
+    @POST
+    @Path("/delete/author")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response deleteAuthor(@HeaderParam("X-Auth-Token") String authToken, Id id) {
+        try {
+            authService.verifyToken(authToken);
+        } catch(AuthException e) {
+            return Response.status(Response.Status.UNAUTHORIZED).entity(e.getMessage()).build();
+        }
+        try {
+            validationService.verifyAuthorId(id);
+        } catch(ValidationException e) {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
+        }
+        catalogueService.deleteAuthor(id.getId());
+        return Response.ok(new ArrayList<>()).build();
     }
 
     @POST

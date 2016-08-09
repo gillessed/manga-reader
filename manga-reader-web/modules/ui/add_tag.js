@@ -24,13 +24,13 @@ export default class AddManga extends React.Component {
     let tag = {}
     serverConstants.languages.forEach((language) => {
       tag[language] = this.refs['input_' + language].value
+      if(!tag[language]) {
+        tag[language] = 'BLANK'
+      }
     })
     catalogueController.createTag(
       tag,
       (json) => {
-        serverConstants.languages.forEach((language) => {
-          tag[language] = this.refs['input_' + language].value = 0
-        })
         this.setState({
           creating: false
         })
